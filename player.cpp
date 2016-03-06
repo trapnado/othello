@@ -81,7 +81,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     Move * toReturn = NULL;
     if (board.bestMove != NULL)
     {
-        Move * toReturn = new Move(board.bestMove->x, board.bestMove->y);
+        toReturn = new Move(board.bestMove->x, board.bestMove->y);
     }
     return toReturn;
 

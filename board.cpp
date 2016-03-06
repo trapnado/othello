@@ -240,7 +240,7 @@ int Board::scoreBoard(Side me, Side opponent, bool testingminimax)
     }
     else
     {
-        return weightedCount(me);
+        return (weightedCount(me) - weightedCount(opponent));
     }
 }
 
@@ -256,8 +256,6 @@ int Board::weightedCount(Side me)
             }
         }
     }
-    
-
     return score;    
 }
 
