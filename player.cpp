@@ -48,7 +48,8 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     vector<Move *> myMoves = board.possibleMoves(me);
     if (myMoves.size() >= 1)
     {
-        Move * toReturn = new Move(myMoves[0].x, myMoves[0].y);
+        Move * toReturn = new Move(myMoves[0]->x, myMoves[0]->y);
+        board.doMove(toReturn, me);
         return toReturn; //hi
     }
     return NULL;

@@ -1,7 +1,7 @@
 #include "board.h"
 
 
-Move * Board::allMoves [8][8] = {
+Move * const Board::allMoves [8][8] = {
     {new Move(0,0), new Move(0,1), new Move(0,2), new Move(0,3), 
      new Move(0,4), new Move(0,5), new Move(0,6), new Move(0,7)},
     {new Move(1,0), new Move(1,1), new Move(1,2), new Move(1,3), 
@@ -18,7 +18,7 @@ Move * Board::allMoves [8][8] = {
      new Move(6,4), new Move(6,5), new Move(6,6), new Move(6,7)},
     {new Move(7,0), new Move(7,1), new Move(7,2), new Move(7,3), 
      new Move(7,4), new Move(7,5), new Move(7,6), new Move(7,7)}
-}
+};
 
 /*
  * Make a standard 8x8 othello board and initialize it to the standard setup.
