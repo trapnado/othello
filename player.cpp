@@ -46,7 +46,7 @@ Player::~Player() {
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
     
-    board.pickMove(me, opponent, true);
+    board.pickMove(me, opponent, testingMinimax);
     if (board.bestMove != NULL)
     {
         Move * toReturn = new Move(board.bestMove->x, board.bestMove->y);

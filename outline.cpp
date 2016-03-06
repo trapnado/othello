@@ -48,6 +48,15 @@ private:
     void set(Side side, int x, int y);
     bool onBoard(int x, int y);
 public:
+	/*
+    // All 64 possible moves. Declared static because its for reference; there
+    // is no need to have more than one copy of it.
+    // Remember: row first, then column.
+    */
+    static Move * const allMoves [8][8];
+    int bestScore;
+    Move * bestMove;
+    static int const baseWeight [8][8];
 	// Board initializes to standard othello opening board.
     Board();
     ~Board();
