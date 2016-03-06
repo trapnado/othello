@@ -7,7 +7,7 @@
  */
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
-    testingMinimax = true; 
+    testingMinimax = false; 
     me = side;
     if(me == BLACK)
     {
@@ -50,28 +50,20 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 	board.bestMove = NULL;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            Move *move = new Move(i, j);
+            Move *move = board.allMoves[i][j];
             if (board.checkMove(move, me))
             {
 				Board * temp_board = board.copy();
 				temp_board->doMove(move, me);
 				temp_board->pickMove(opponent, me, testingMinimax);
 				temp_board->doMove(temp_board->bestMove, opponent);
-				if (temp_board->scoreBoard(me, opponent, testingMinimax) > board.bestScore)
+                int score = temp_board->scoreBoard(me, opponent, testingMinimax);
+				if (score > board.bestScore)
 				{
 					std::cerr << board.bestScore << std::endl;
-					board.bestScore = temp_board->scoreBoard(me, opponent, testingMinimax);
-					std::cerr << temp_board->scoreBoard(me, opponent, testingMinimax) << std::endl;
-					Move * temp = board.bestMove;
+					board.bestScore = score;
+					std::cerr << score << std::endl;
 					board.bestMove = move;
-					if (temp != NULL)
-					{
-					delete temp;	
-					}
-				}
-				else
-				{
-					delete move;
 				}
 				delete temp_board;
 			}
@@ -86,6 +78,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         //return toReturn; //hi
     //}
     board.doMove(board.bestMove, me);
-    return board.bestMove;
+    Move * toReturn = NULL;
+    if (board.bestMove != NULL)
+    {
+        Move * toReturn = new Move(board.bestMove->x, board.bestMove->y);
+    }
+    return toReturn;
 
 }

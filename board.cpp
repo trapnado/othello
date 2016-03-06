@@ -247,17 +247,17 @@ int Board::scoreBoard(Side me, Side opponent, bool testingminimax)
 int Board::weightedCount(Side me)
 {
     int score = 0;
-    if (me == BLACK)
-    {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (get(me, i, j))
-                {
-                    score+=baseWeight[i][j];
-                }
+    
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (get(me, i, j))
+            {
+                score+=baseWeight[i][j];
             }
         }
     }
+    
+
     return score;    
 }
 
