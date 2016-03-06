@@ -24,6 +24,8 @@ private:
     bool get(Side side, int x, int y);
     void set(Side side, int x, int y);
     bool onBoard(int x, int y);
+    //int dotDifference(Side side);
+    void bitsetBoard(bitset<64> tkn, bitset<64> blck);
       
 public:
     /*
@@ -32,6 +34,9 @@ public:
     // Remember: row first, then column.
     */
     static Move * const allMoves [8][8];
+    int bestScore;
+    Move * bestMove;
+    static int const baseWeight [8][8];
 
     /*
     vector<Move *> legalBlackMoves;
@@ -46,6 +51,8 @@ public:
     bool checkMove(Move *m, Side side);
     vector<Move *> possibleMoves(Side side);
     void doMove(Move *m, Side side);
+    void pickMove(Side me, Side opponent, bool testingminimax);
+    int scoreBoard(Side me, Side opponent, bool testingminimax);
     int count(Side side);
     int countBlack();
     int countWhite();

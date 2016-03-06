@@ -20,6 +20,27 @@ Move * const Board::allMoves [8][8] = {
      new Move(7,4), new Move(7,5), new Move(7,6), new Move(7,7)}
 };
 
+/* cor|ncr|edg ...etc.
+ * ncr|dcr|nor
+ * edg|nor|nor
+ * ...
+ * etc.
+ * cor = corner, ncr = edge next to corner,
+ * dcr = diagonal next to corner
+ * nor = normal
+ */
+int cor = 5, ncr = -5, dcr = -4, nor = 1, edg = 2; 
+int const Board::baseWeight [8][8] = {
+    {cor, ncr, edg, edg, edg, edg, ncr, cor},
+    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+    {cor, ncr, edg, edg, edg, edg, ncr, cor}
+};
+
 /*
  * Make a standard 8x8 othello board and initialize it to the standard setup.
  */
@@ -174,6 +195,53 @@ void Board::doMove(Move *m, Side side) {
     set(side, X, Y);
 }
 
+/* 
+ * Picks the best move for the given side on this board.
+ * Stores the move's score to bestScore and the move * to bestMove.
+ */
+void Board::pickMove(Side me, Side opponent, bool testingminimax)
+{
+    bestScore = -255;
+    bestMove = NULL;
+    int score;
+    //bitset<64> blck = black;
+    //bitset<64> tkn = taken;
+    Board *test;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (checkMove(allMoves[i][j], me)) 
+            {
+                test = copy();
+                test->doMove(allMoves[i][j], me);
+                score = test->scoreBoard(me, opponent, testingminimax);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestMove = allMoves[i][j];
+                }
+                //black = blck;
+                //taken = tkn;
+            }
+        }
+    }
+}
+
+// Returns the score of current board for a particular side.
+int Board::scoreBoard(Side me, Side opponent, bool testingminimax)
+{
+    if(testingminimax)
+    {
+        return count(me)-count(opponent);
+    }
+    else
+    {
+        return 0; //INCOMPLETE
+    }
+}
+
+
+
+
 /*
  * Current count of given side's stones.
  */
@@ -208,6 +276,24 @@ void Board::setBoard(char data[]) {
             black.set(i);
         } if (data[i] == 'w') {
             taken.set(i);
+        }
+    }
+}
+
+/*
+ * Sets the board state given a 64-long bitset for taken
+ * and a 64 long bitset for black. Mainly for testing purposes.
+ */
+void Board::bitsetBoard(bitset<64> tkn, bitset<64> blck) {
+    taken.reset();
+    black.reset();
+    for (int i = 0; i < 64; i++) {
+        if (tkn[i]) {
+            taken.set(i);
+            if (blck[i])
+            {
+                black.set(i);
+            }  
         }
     }
 }
