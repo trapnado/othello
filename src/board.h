@@ -17,7 +17,8 @@ private:
     bitset<64> taken;    
     /* Well...maybe. I can see wanting to store a bit more info about
      * the context of some of the pieces, specifically if something is
-     * interior or not, so that doesn't have to be recomputed. */  
+     * interior or not, so that doesn't have to be recomputed. */ 
+
        
     bool occupied(int x, int y);
     bool get(Side side, int x, int y);
@@ -25,6 +26,16 @@ private:
     bool onBoard(int x, int y);
       
 public:
+    /*
+    // All 64 possible moves. Declared static because its for reference; there
+    // is no need to have more than one copy of it.
+    // Remember: row first, then column.
+    static Move * allMoves [8][8];
+
+
+    vector<Move *> legalBlackMoves;
+    vector<Move *> legalWhiteMoves; */
+
     Board();
     ~Board();
     Board *copy();
@@ -32,10 +43,12 @@ public:
     bool isDone();
     bool hasMoves(Side side);
     bool checkMove(Move *m, Side side);
+    vector<Move *> possibleMoves(Side side);
     void doMove(Move *m, Side side);
     int count(Side side);
     int countBlack();
     int countWhite();
+
 
     void setBoard(char data[]);
 };

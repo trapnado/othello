@@ -1,6 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#include <vector>
 /* Attempted synopsis of enum's: an enum instance takes 
  * one of the possible enum types, and never changes. Each type corresponds
  * to an integer value-WHITE is probably 0 and BLACK is probably 1. 

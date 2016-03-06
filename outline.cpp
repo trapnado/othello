@@ -57,6 +57,7 @@ public:
     bool isDone(); // Is the game over?
     bool hasMoves(Side side);
     bool checkMove(Move *m, Side side);
+    vector<Move *> possibleMoves(Side side);
     // doMove will flip the opponent's pieces appropriately when called. 
     void doMove(Move *m, Side side); 
     int count(Side side);
@@ -71,6 +72,8 @@ public:
 // Player is NOT implemented.
 class Player {
 public:
+	Side me, opponent;
+	Board board; //More pointers more problems. 
     Player(Side side);
     ~Player();
     
