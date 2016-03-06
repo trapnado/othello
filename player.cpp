@@ -45,6 +45,7 @@ Player::~Player() {
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
+    
     board.pickMove(me, opponent, true);
     if (board.bestMove != NULL)
     {
@@ -53,6 +54,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         return toReturn;
     }
     return NULL;
+    
 
     /*
     vector<Move *> myMoves = board.possibleMoves(me);
@@ -62,6 +64,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         board.doMove(toReturn, me);
         return toReturn; //hi
     }
+    
+    return NULL;
     */
-    //return NULL;
 }

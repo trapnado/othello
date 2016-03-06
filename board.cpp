@@ -219,6 +219,7 @@ void Board::pickMove(Side me, Side opponent, bool testingminimax)
                     bestScore = score;
                     bestMove = allMoves[i][j];
                 }
+                delete test;
                 //black = blck;
                 //taken = tkn;
             }
