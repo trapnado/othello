@@ -9,7 +9,7 @@ using namespace std;
 class Player {
 
 public:
-	Side mySide;
+	Side me, opponent;
 	Board board; //More pointers more problems. 
     Player(Side side);
     ~Player();
