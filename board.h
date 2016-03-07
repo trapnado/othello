@@ -32,7 +32,8 @@ public:
     // Remember: row first, then column.
     */
     static Move * const allMoves [8][8];
-
+    int bestScore;
+    Move * bestMove;
     /*
     vector<Move *> legalBlackMoves;
     vector<Move *> legalWhiteMoves; */
@@ -46,6 +47,7 @@ public:
     bool checkMove(Move *m, Side side);
     vector<Move *> possibleMoves(Side side);
     void doMove(Move *m, Side side);
+    void pickMove(Side side);
     int count(Side side);
     int countBlack();
     int countWhite();
