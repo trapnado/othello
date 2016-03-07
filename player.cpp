@@ -7,7 +7,7 @@
  */
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
-    testingMinimax = false;
+    testingMinimax = true; 
     me = side;
     if(me == BLACK)
     {
@@ -58,7 +58,9 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 				temp_board->doMove(temp_board->bestMove, opponent);
 				if (temp_board->scoreBoard(me, opponent, testingMinimax) > board.bestScore)
 				{
+					std::cerr << board.bestScore << std::endl;
 					board.bestScore = temp_board->scoreBoard(me, opponent, testingMinimax);
+					std::cerr << temp_board->scoreBoard(me, opponent, testingMinimax) << std::endl;
 					Move * temp = board.bestMove;
 					board.bestMove = move;
 					if (temp != NULL)
@@ -83,4 +85,5 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     //}
     board.doMove(board.bestMove, me);
     return board.bestMove;
+
 }
