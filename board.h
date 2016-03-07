@@ -24,7 +24,7 @@ private:
     bool get(Side side, int x, int y);
     void set(Side side, int x, int y);
     bool onBoard(int x, int y);
-    //int dotDifference(Side side);
+    int weightedCount(Side me);
     void bitsetBoard(bitset<64> tkn, bitset<64> blck);
       
 public:

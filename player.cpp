@@ -45,6 +45,7 @@ Player::~Player() {
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
+
 	board.bestScore = -10000;
 	board.bestMove = NULL;
     for (int i = 0; i < 8; i++) {
@@ -75,6 +76,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 				delete temp_board;
 			}
         }
+
     }
     //vector<Move *> myMoves = board.possibleMoves(me);
     //if (myMoves.size() >= 1)
