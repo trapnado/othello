@@ -179,6 +179,21 @@ void Board::doMove(Move *m, Side side) {
 }
 
 /*
+ * Sets best move
+ */
+ void Board::pickMove(Side me, Side opponent, bool testingMinimax)
+ {
+	 
+ }
+ /*
+ * Scores a move and returns the score
+ */
+ int Board::scoreBoard(Side me, Side opponent, bool testingMinimax)
+ {
+	 return 0;
+ }
+ 
+/*
  * Current count of given side's stones.
  */
 int Board::count(Side side) {

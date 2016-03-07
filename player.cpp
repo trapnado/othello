@@ -45,16 +45,33 @@ Player::~Player() {
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
-
+	board.bestScore = -10000;
+	board.bestMove = NULL;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             Move *move = new Move(i, j);
             if (board.checkMove(move, me))
             {
-				board.doMove(move, me);
-				return move;
+				Board * temp_board = board.copy();
+				temp_board->doMove(move, me);
+				temp_board->pickMove(opponent, me, testingMinimax);
+				temp_board->doMove(temp_board->bestMove, opponent);
+				if (temp_board->scoreBoard(me, opponent, testingMinimax) > board.bestScore)
+				{
+					board.bestScore = temp_board->scoreBoard(me, opponent, testingMinimax);
+					Move * temp = board.bestMove;
+					board.bestMove = move;
+					if (temp != NULL)
+					{
+					delete temp;	
+					}
+				}
+				else
+				{
+					delete move;
+				}
+				delete temp_board;
 			}
-			delete move;
         }
     }
     //vector<Move *> myMoves = board.possibleMoves(me);
@@ -64,5 +81,6 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         //board.doMove(toReturn, me);
         //return toReturn; //hi
     //}
-    return NULL;
+    board.doMove(board.bestMove, me);
+    return board.bestMove;
 }

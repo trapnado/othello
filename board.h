@@ -47,7 +47,8 @@ public:
     bool checkMove(Move *m, Side side);
     vector<Move *> possibleMoves(Side side);
     void doMove(Move *m, Side side);
-    void pickMove(Side side);
+    void pickMove(Side me, Side opponent, bool testing);
+    int scoreBoard(Side me, Side opponent, bool testing);
     int count(Side side);
     int countBlack();
     int countWhite();
