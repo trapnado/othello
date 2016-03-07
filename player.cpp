@@ -7,7 +7,7 @@
  */
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
-    testingMinimax = true; 
+    testingMinimax = false; 
     me = side;
     if(me == BLACK)
     {
