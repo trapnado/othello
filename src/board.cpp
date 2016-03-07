@@ -1,5 +1,25 @@
 #include "board.h"
 
+
+Move * Board::allMoves [8][8] = {
+    {new Move(0,0), new Move(0,1), new Move(0,2), new Move(0,3), 
+     new Move(0,4), new Move(0,5), new Move(0,6), new Move(0,7)},
+    {new Move(1,0), new Move(1,1), new Move(1,2), new Move(1,3), 
+     new Move(1,4), new Move(1,5), new Move(1,6), new Move(1,7)},
+    {new Move(2,0), new Move(2,1), new Move(2,2), new Move(2,3), 
+     new Move(2,4), new Move(2,5), new Move(2,6), new Move(2,7)},
+    {new Move(3,0), new Move(3,1), new Move(3,2), new Move(3,3), 
+     new Move(3,4), new Move(3,5), new Move(3,6), new Move(3,7)},
+    {new Move(4,0), new Move(4,1), new Move(4,2), new Move(4,3), 
+     new Move(4,4), new Move(4,5), new Move(4,6), new Move(4,7)},
+    {new Move(5,0), new Move(5,1), new Move(5,2), new Move(5,3), 
+     new Move(5,4), new Move(5,5), new Move(5,6), new Move(5,7)},
+    {new Move(6,0), new Move(6,1), new Move(6,2), new Move(6,3), 
+     new Move(6,4), new Move(6,5), new Move(6,6), new Move(6,7)},
+    {new Move(7,0), new Move(7,1), new Move(7,2), new Move(7,3), 
+     new Move(7,4), new Move(7,5), new Move(7,6), new Move(7,7)}
+}
+
 /*
  * Make a standard 8x8 othello board and initialize it to the standard setup.
  */
@@ -60,8 +80,8 @@ bool Board::isDone() {
 bool Board::hasMoves(Side side) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            Move move(i, j);
-            if (checkMove(&move, side)) return true;
+            //Move move(i, j);
+            if (checkMove(allMoves[i][j], side)) return true;
         }
     }
     return false;
@@ -108,8 +128,7 @@ vector<Move *> Board::possibleMoves(Side side){
     vector<Move *> myMoves;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            Move move(i, j);
-            if (checkMove(&move, side)) myMoves.push_back(&move);
+            if (checkMove(allMoves[i][j], side)) myMoves.push_back(allMoves[i][j]);
         }
     }
     return myMoves;

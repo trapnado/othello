@@ -45,6 +45,7 @@ Player::~Player() {
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
+
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             Move *move = new Move(i, j);
@@ -56,6 +57,12 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 			delete move;
         }
     }
-    
+    //vector<Move *> myMoves = board.possibleMoves(me);
+    //if (myMoves.size() >= 1)
+    //{
+        //Move * toReturn = new Move(myMoves[0]->x, myMoves[0]->y);
+        //board.doMove(toReturn, me);
+        //return toReturn; //hi
+    //}
     return NULL;
 }

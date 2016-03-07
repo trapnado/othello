@@ -30,9 +30,10 @@ public:
     // All 64 possible moves. Declared static because its for reference; there
     // is no need to have more than one copy of it.
     // Remember: row first, then column.
-    static Move * allMoves [8][8];
+    */
+    static Move * const allMoves [8][8];
 
-
+    /*
     vector<Move *> legalBlackMoves;
     vector<Move *> legalWhiteMoves; */
 

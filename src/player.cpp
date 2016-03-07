@@ -8,8 +8,8 @@
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
     testingMinimax = false;
-    mySide = side;
-    If(mySide == BLACK)
+    me = side;
+    if(me == BLACK)
     {
         opponent = WHITE;
     }
@@ -48,7 +48,8 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     vector<Move *> myMoves = board.possibleMoves(me);
     if (myMoves.size() >= 1)
     {
-        return myMoves[0]; //hi
+        Move * toReturn = new Move(myMoves[0].x, myMoves[0].y);
+        return toReturn; //hi
     }
     return NULL;
 }

@@ -7,6 +7,10 @@ SRC = src
 OBJ = obj
 BIN = bin
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b89df401b5cd58fac7f451640cf5ed38109b067e
 all: $(PLAYERNAME) testgame
 	
 $(PLAYERNAME): $(OBJS) wrapper.o

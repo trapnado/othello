@@ -3,9 +3,7 @@ CFLAGS      = -Wall -ansi -pedantic -ggdb
 OBJS        = player.o board.o
 PLAYERNAME  = greenEyedMonster0u0
 
-SRC = src
-OBJ = obj
-BIN = bin
+
 
 all: $(PLAYERNAME) testgame
 	
