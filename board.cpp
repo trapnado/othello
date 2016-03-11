@@ -31,18 +31,20 @@ Move * const Board::allMoves [8][8] = {
  * dcr = diagonal next to corner
  * nor = normal
  */
-int cor = 10, ncr = 0, dcr = -5, nor = 1, edg = 2; 
-int const Board::baseWeight [8][8] = {
-    {cor, ncr, edg, edg, edg, edg, ncr, cor},
-    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
-    {edg, nor, nor, nor, nor, nor, nor, edg},
-    {edg, nor, nor, nor, nor, nor, nor, edg},
-    {edg, nor, nor, nor, nor, nor, nor, edg},
-    {edg, nor, nor, nor, nor, nor, nor, edg},
-    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
-    {cor, ncr, edg, edg, edg, edg, ncr, cor}
-};
+int scalar = 4;
+int mobility = 3, frontier = 1;
+int cor = 10 * scalar, ncr = 0 * scalar, dcr = -5 * scalar, nor = 2 * scalar, edg = 4 *scalar; 
 
+int Board::baseWeight [8][8] = {
+{cor, ncr, edg, edg, edg, edg, ncr, cor},
+{ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+{edg, nor, nor, nor, nor, nor, nor, edg},
+{edg, nor, nor, nor, nor, nor, nor, edg},
+{edg, nor, nor, nor, nor, nor, nor, edg},
+{edg, nor, nor, nor, nor, nor, nor, edg},
+{ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+{cor, ncr, edg, edg, edg, edg, ncr, cor}
+};
 /*
  * Make a standard 8x8 othello board and initialize it to the standard setup.
  */
@@ -168,6 +170,30 @@ void Board::doMove(Move *m, Side side) {
 
     // Ignore if move is invalid.
     if (!checkMove(m, side)) return;
+    if (m == allMoves[0][0])
+    {
+		baseWeight[0][1] = edg;
+		baseWeight[1][0] = edg;
+		baseWeight[1][1] = nor;
+	}
+	else if (m == allMoves[0][7])
+    {
+		baseWeight[0][6] = edg;
+		baseWeight[1][7] = edg;
+		baseWeight[1][6] = nor;
+	}
+	else if (m == allMoves[7][0])
+    {
+		baseWeight[6][0] = edg;
+		baseWeight[7][1] = edg;
+		baseWeight[6][1] = nor;
+	}
+	else if (m == allMoves[7][7])
+    {
+		baseWeight[7][6] = edg;
+		baseWeight[6][7] = edg;
+		baseWeight[6][6] = nor;
+	}
 
     int X = m->getX();
     int Y = m->getY();
@@ -251,10 +277,28 @@ int Board::weightedCount(Side me)
         for (int j = 0; j < 8; j++) {
             if (get(me, i, j))
             {
-                score+=baseWeight[i][j];
+                score+= baseWeight[i][j];
             }
+            else if (!occupied(i, j))
+            {
+				for (int l = -1; l < 2; l++)
+				{
+					for (int k = -1; k < 2; k++)
+					{
+						if (onBoard(i + l, j + k))
+						{
+						if (get(me, i + l, j + k))
+						{
+							score -= frontier;
+						}
+						}
+					}
+				}
+			}
+            
         }
     }
+    score += mobility * possibleMoves(me).size();
     return score;    
 }
 

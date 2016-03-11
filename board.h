@@ -36,7 +36,7 @@ public:
     static Move * const allMoves [8][8];
     int bestScore;
     Move * bestMove;
-    static int const baseWeight [8][8];
+    static int baseWeight [8][8];
 
 
     /*
