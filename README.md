@@ -5,7 +5,7 @@ Any useful information goes here
 Outline.cpp is only a cpp file so that my text editor will interpret it as a c file.
 Point of outline: quick reference for functions/classes/object types.
 
-IDEAS:
+IDEAS:, 3/6/2016:
 -Could make a 64-long array of Move *'s for all the possible moves. Would it be faster 
 to reference that than to make new Move *'s? I imagine it would definitely help us keep
 track of our memory, which we've been told is important. 
@@ -22,3 +22,6 @@ times if we wanted to call haveMove more than once in our decisions.
 -Board should really contain some additional information about the spaces. A weighting
 is the obvious starting point. Tracking which spaces are 'frontier' is something
 we should definitely do (if time).
+
+================ What was ready by milestone 1. ============
+-

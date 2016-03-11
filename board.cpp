@@ -53,6 +53,8 @@ Board::Board() {
     taken.set(4 + 8 * 4);
     black.set(4 + 8 * 3);
     black.set(3 + 8 * 4);
+    depth = 0;
+    side = BLACK; 
 }
 
 /*
@@ -68,6 +70,18 @@ Board *Board::copy() {
     Board *newBoard = new Board();
     newBoard->black = black;
     newBoard->taken = taken;
+    newBoard->side = side;
+    newBoard->depth = depth;
+    return newBoard;
+}
+
+/* Increases the depth by 1 and switches sides to the passed side. */
+Board *Board::abNextBoard(Side newSide) {
+    Board *newBoard = new Board();
+    newBoard->black = black;
+    newBoard->taken = taken;
+    newBoard->side = newSide;
+    newBoard->depth = depth + 1;
     return newBoard;
 }
 
@@ -153,7 +167,8 @@ vector<Move *> Board::possibleMoves(Side side){
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
 
-            if (checkMove(allMoves[i][j], side)) myMoves.push_back(allMoves[i][j]);
+            if (checkMove(allMoves[i][j], side)) 
+                myMoves.push_back(allMoves[i][j]);
         }
     }
     return myMoves;

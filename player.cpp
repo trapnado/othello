@@ -18,6 +18,9 @@ Player::Player(Side side) {
         opponent = BLACK;
     }
     board = Board(); 
+    board.side = side;
+    //std::cerr << "Successful Initialization! " << std::endl;
+    //Depth is automatically set to 0.
     /* 
      * TODO: Do any initialization you need to do here (setting up the board,
      * precalculating things, etc.) However, remember that you will only have
@@ -48,35 +51,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
 	board.bestScore = -10000;
 	board.bestMove = NULL;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            Move *move = board.allMoves[i][j];
-            if (board.checkMove(move, me))
-            {
-				Board * temp_board = board.copy();
-				temp_board->doMove(move, me);
-				temp_board->pickMove(opponent, me, testingMinimax);
-				temp_board->doMove(temp_board->bestMove, opponent);
-                int score = temp_board->scoreBoard(me, opponent, testingMinimax);
-				if (score > board.bestScore)
-				{
-					std::cerr << board.bestScore << std::endl;
-					board.bestScore = score;
-					std::cerr << score << std::endl;
-					board.bestMove = move;
-				}
-				delete temp_board;
-			}
-        }
-
-    }
-    //vector<Move *> myMoves = board.possibleMoves(me);
-    //if (myMoves.size() >= 1)
-    //{
-        //Move * toReturn = new Move(myMoves[0]->x, myMoves[0]->y);
-        //board.doMove(toReturn, me);
-        //return toReturn; //hi
-    //}
+    depthLimit = 4;
+    int alpha = -10000, beta = 10000;
+    // CHoose the best move; store it to my board.
+    ab(&board, me, opponent, alpha, beta);
+    
     board.doMove(board.bestMove, me);
     Move * toReturn = NULL;
     if (board.bestMove != NULL)
@@ -85,4 +64,45 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     }
     return toReturn;
 
+}
+
+// The tBoard carries your side-so only oppSide needed--this is just for 
+// convenience
+int Player::ab(Board * tBoard, Side mySide, Side oppSide, int alpha, int beta)
+{
+    if (tBoard->depth == depthLimit)
+        return tBoard->scoreBoard(mySide, oppSide, false);
+    vector<Move *> moves = tBoard->possibleMoves(mySide);
+    int score;
+    if (moves.size() == 0)
+    {
+        if (!tBoard->hasMoves(opponent))
+        {
+            // This is a game end state. Weight it accordingly.
+            return 1000 * tBoard->scoreBoard(mySide, oppSide, true);
+        }
+        else
+        {
+            Board * temp_board = tBoard->abNextBoard(oppSide);
+            return -ab(temp_board, oppSide, mySide, -beta, -alpha);
+        }
+    }
+    tBoard->bestMove = moves[0];
+    for (unsigned int i = 0; i < moves.size(); i++)
+    {
+        Board * temp_board = tBoard->abNextBoard(oppSide);
+        temp_board->doMove(moves[i], mySide);
+        score = -ab(temp_board, oppSide, mySide, -beta, -alpha);
+        delete temp_board; // Consider doing storing to transposition tables!
+        if (score > alpha)
+        {
+            alpha = score;
+            tBoard->bestMove = moves[i];
+            tBoard->bestScore = alpha;
+        }
+        if (score >= beta)
+            break;
+    }
+
+    return alpha;
 }

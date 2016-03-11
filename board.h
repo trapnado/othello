@@ -37,6 +37,14 @@ public:
     int bestScore;
     Move * bestMove;
     static int const baseWeight [8][8];
+    /* The depth of this board in the alpha-beta pruning.
+     * Will also be useful if we do any transposition.
+     * A DEPTH OF 0 in the search means that this board is the root.
+     * In a transposition table, depth is the number of levels after
+     * this board that were evaluated in determining its statistics.
+     */
+    int depth; 
+    Side side; // Which side the "bestScore" and "BestMove" apply to.
 
 
     /*
@@ -46,6 +54,8 @@ public:
     Board();
     ~Board();
     Board *copy();
+    // An adjusted copying function for use in ab
+    Board *abNextBoard(Side newSide);
         
     bool isDone();
     bool hasMoves(Side side);
