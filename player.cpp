@@ -19,7 +19,6 @@ Player::Player(Side side) {
     }
     board = Board(); 
     board.side = side;
-    //std::cerr << "Successful Initialization! " << std::endl;
     //Depth is automatically set to 0.
     /* 
      * TODO: Do any initialization you need to do here (setting up the board,

@@ -36,7 +36,8 @@ public:
     static Move * const allMoves [8][8];
     int bestScore;
     Move * bestMove;
-    static int const baseWeight [8][8];
+
+    
     /* The depth of this board in the alpha-beta pruning.
      * Will also be useful if we do any transposition.
      * A DEPTH OF 0 in the search means that this board is the root.
@@ -45,6 +46,8 @@ public:
      */
     int depth; 
     Side side; // Which side the "bestScore" and "BestMove" apply to.
+    static int baseWeight [8][8];
+
 
 
     /*
