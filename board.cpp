@@ -31,7 +31,7 @@ Move * const Board::allMoves [8][8] = {
  * dcr = diagonal next to corner
  * nor = normal
  */
-int cor = 5, ncr = -5, dcr = -4, nor = 1, edg = 2; 
+int cor = 10, ncr = 0, dcr = -5, nor = 1, edg = 2; 
 int const Board::baseWeight [8][8] = {
     {cor, ncr, edg, edg, edg, edg, ncr, cor},
     {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
@@ -240,7 +240,7 @@ int Board::scoreBoard(Side me, Side opponent, bool testingminimax)
     }
     else
     {
-        return weightedCount(me);
+        return (weightedCount(me) - weightedCount(opponent));
     }
 }
 
