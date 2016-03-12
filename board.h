@@ -46,7 +46,7 @@ public:
      */
     int depth; 
     Side side; // Which side the "bestScore" and "BestMove" apply to.
-    static int baseWeight [8][8];
+    int baseWeight [8][8];
 
 
 

@@ -35,16 +35,17 @@ int scalar = 4;
 int mobility = 3, frontier = 1;
 int cor = 10 * scalar, ncr = 0 * scalar, dcr = -5 * scalar, nor = 2 * scalar, edg = 4 *scalar; 
 
-int Board::baseWeight [8][8] = {
-{cor, ncr, edg, edg, edg, edg, ncr, cor},
-{ncr, dcr, nor, nor, nor, nor, dcr, ncr},
-{edg, nor, nor, nor, nor, nor, nor, edg},
-{edg, nor, nor, nor, nor, nor, nor, edg},
-{edg, nor, nor, nor, nor, nor, nor, edg},
-{edg, nor, nor, nor, nor, nor, nor, edg},
-{ncr, dcr, nor, nor, nor, nor, dcr, ncr},
-{cor, ncr, edg, edg, edg, edg, ncr, cor}
-};
+int startingWeight [8][8]  = {
+    {cor, ncr, edg, edg, edg, edg, ncr, cor},
+    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {edg, nor, nor, nor, nor, nor, nor, edg},
+    {ncr, dcr, nor, nor, nor, nor, dcr, ncr},
+    {cor, ncr, edg, edg, edg, edg, ncr, cor}
+    };
+
 /*
  * Make a standard 8x8 othello board and initialize it to the standard setup.
  */
@@ -57,6 +58,12 @@ Board::Board() {
     black.set(3 + 8 * 4);
     depth = 0;
     side = BLACK; 
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            baseWeight[i][j] = startingWeight[i][j];
+        }
+    }
 }
 
 /*
@@ -74,6 +81,11 @@ Board *Board::copy() {
     newBoard->taken = taken;
     newBoard->side = side;
     newBoard->depth = depth;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            newBoard->baseWeight[i][j] = baseWeight[i][j];
+        }
+    }
     return newBoard;
 }
 
@@ -84,6 +96,11 @@ Board *Board::abNextBoard(Side newSide) {
     newBoard->taken = taken;
     newBoard->side = newSide;
     newBoard->depth = depth + 1;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            newBoard->baseWeight[i][j] = baseWeight[i][j];
+        }
+    }
     return newBoard;
 }
 
