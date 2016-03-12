@@ -78,7 +78,7 @@ int Player::ab(Board * tBoard, Side mySide, Side oppSide, int alpha, int beta)
         if (!tBoard->hasMoves(opponent))
         {
             // This is a game end state. Weight it accordingly.
-            return 1000 * tBoard->scoreBoard(mySide, oppSide, true);
+            return 100000 * tBoard->scoreBoard(mySide, oppSide, true);
         }
         else
         {

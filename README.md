@@ -7,11 +7,13 @@ Any useful information goes here
 simple stone-count instead for testing minimax; some structural help (i.e. finding
 a vector of possible moves) (Rita) 
 + A whole bunch of streamlining and debugging (both)
-+Tuning (both)
++Tuning weights (both)
 
 ================ Improvements to make tournament worthy: ===
 -Recursive Alpha-beta pruning to arbitrarily set depth that recognizes game-end
 states (and weights them appropriately). (Rita)
 -Heuristic improvement to consider mobility, frontier spaces, and some 
 dynamic adjustment of weights (next to corner spaces are no longer negative
-if the corner is yours. ).
+if the corner is yours). (Michael) 
++some streamlining and debugging (both)
++Tuning weights (both)
