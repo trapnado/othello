@@ -56,7 +56,6 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
 	board.bestScore = -10000;
 	board.bestMove = NULL;
-    //depthLimit = 7;
     int stones = board.countBlack() + board.countWhite();
     for (int i = 0; i < TIMING_SIZE; i++)
     {
