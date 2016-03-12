@@ -31,8 +31,8 @@ Move * const Board::allMoves [8][8] = {
  * dcr = diagonal next to corner
  * nor = normal
  */
-int scalar = 10;
-int mobility = 20, frontier = 1;
+int scalar = 4;
+int mobility = 3, frontier = 1;
 int cor = 10 * scalar, ncr = 0 * scalar, dcr = -5 * scalar, nor = 2 * scalar, edg = 4 *scalar; 
 
 int startingWeight [8][8]  = {

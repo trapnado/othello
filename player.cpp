@@ -1,5 +1,7 @@
 #include "player.h"
 #define TIMING_SIZE 10
+#define PASS_HEDGING 1
+#define EXPONENTIATION_FACTOR 1.5
 //#define EXPECTED_NUM_MOVES 36
 
 /*
@@ -62,19 +64,21 @@ int timing[TIMING_SIZE+1] = {0, 0, 0, 0, 0, 0, 0, 0, 24, 45, 100};
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
+    /*
     myMoveTimes[moveNumber] = prevMoveStartTime - msLeft;
     
     prevMoveStartTime = msLeft;
 
 	int stones = board.countBlack() + board.countWhite();
-    if (stones > 15)
+    if (stones > 12)
     {
-        if ( ((64 - stones)/2+2) * myMoveTimes[moveNumber] 
+        if ( ((64 - stones)/2+PASS_HEDGING) * myMoveTimes[moveNumber] 
              > msLeft && depthLimit > 0)
         {
             depthLimit--;
         }
-        else if (((64 - stones)/2+2) * myMoveTimes[moveNumber]*10 
+        else if (((64 - stones)/2+PASS_HEDGING) * myMoveTimes[moveNumber]
+            * EXPONENTIATION_FACTOR
             < msLeft)
         {
             depthLimit++;
@@ -90,7 +94,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         {
             maxDepthLimit = i;
         }
-    }
+    }*/
     
     board.bestScore = -10000;
     board.bestMove = NULL;
