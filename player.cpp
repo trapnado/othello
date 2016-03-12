@@ -89,7 +89,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         std::cerr << "I had "<< msLeft << " ms left before this move." 
          << std::endl;
     }*/
-    std::cerr << "Approximate minutes left: " << msLeft/1000/60 << std::endl;
+    std::cerr << "Approximate minutes left: " << msLeft/60/1000 << std::endl;
     return toReturn;
 
 }
