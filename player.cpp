@@ -1,4 +1,5 @@
 #include "player.h"
+#define TIMING_SIZE 10
 
 /*
  * Constructor for the player; initialize everything here. The side your AI is
@@ -19,6 +20,7 @@ Player::Player(Side side) {
     }
     board = Board(); 
     board.side = side;
+    board.playerSide = side;
     //Depth is automatically set to 0.
     /* 
      * TODO: Do any initialization you need to do here (setting up the board,
@@ -33,6 +35,10 @@ Player::Player(Side side) {
 Player::~Player() {
 }
 
+
+// if stoneCount > timing[i], stoneCount < timing[i+1], depth = i
+// depth to go to:           0, 1, 2, 3, 4, 5, 6, 7, 8,  9,  10
+int timing[TIMING_SIZE+1] = {0, 0, 0, 0, 0, 0, 0, 0, 24, 45, 100};
 /*
  * Compute the next move given the opponent's last move. Your AI is
  * expected to keep track of the board on its own. If this is the first move,
@@ -50,7 +56,15 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
 	board.bestScore = -10000;
 	board.bestMove = NULL;
-    depthLimit = 6;
+    //depthLimit = 7;
+    int stones = board.countBlack() + board.countWhite();
+    for (int i = 0; i < TIMING_SIZE; i++)
+    {
+        if (stones>timing[i] && stones < timing[i+1])
+        {
+            depthLimit = i;
+        }
+    }
     int alpha = -10000, beta = 10000;
     // CHoose the best move; store it to my board.
     ab(&board, me, opponent, alpha, beta);
@@ -61,6 +75,22 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         toReturn = new Move(board.bestMove->x, board.bestMove->y);
     }
+/*
+    if (board.thisIsLastMove)
+    {
+        std::cerr << "End in sight. My (with heuristic) score: "
+         << board.scoreBoard(me, opponent, false) << std::endl;
+        std::cerr << "I had "<< msLeft << " ms left before this last move." 
+         << std::endl;
+    }
+    else if (board.bestScore > 1000)
+    {
+        std::cerr << "Game end in sight."
+         << board.scoreBoard(me, opponent, false) << std::endl;
+        std::cerr << "I had "<< msLeft << " ms left before this move." 
+         << std::endl;
+    }*/
+    std::cerr << "Approximate minutes left: " << msLeft/1000/60 << std::endl;
     return toReturn;
 
 }
@@ -77,6 +107,10 @@ int Player::ab(Board * tBoard, Side mySide, Side oppSide, int alpha, int beta)
     {
         if (!tBoard->hasMoves(opponent))
         {
+            if (tBoard->depth <= 1)
+            {
+                board.thisIsLastMove = true;
+            }
             // This is a game end state. Weight it accordingly.
             return 1000 * tBoard->scoreBoard(mySide, oppSide, true);
         }

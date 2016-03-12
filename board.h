@@ -46,7 +46,10 @@ public:
      */
     int depth; 
     Side side; // Which side the "bestScore" and "BestMove" apply to.
+    //Side playerSide; // What side the player is. Needed for dynamic
+                     // heuristic updating.
     int baseWeight [8][8];
+    bool thisIsLastMove;
 
 
 

@@ -58,12 +58,14 @@ Board::Board() {
     black.set(3 + 8 * 4);
     depth = 0;
     side = BLACK; 
-
+    //playerSide = BLACK;
+    thisIsLastMove = false;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             baseWeight[i][j] = startingWeight[i][j];
         }
     }
+
 }
 
 /*
@@ -80,7 +82,9 @@ Board *Board::copy() {
     newBoard->black = black;
     newBoard->taken = taken;
     newBoard->side = side;
+    //newBoard->playerSide = playerSide;
     newBoard->depth = depth;
+    newBoard->thisIsLastMove = thisIsLastMove;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             newBoard->baseWeight[i][j] = baseWeight[i][j];
@@ -95,7 +99,9 @@ Board *Board::abNextBoard(Side newSide) {
     newBoard->black = black;
     newBoard->taken = taken;
     newBoard->side = newSide;
+    //newBoard->playerSide = playerSide;
     newBoard->depth = depth + 1;
+    newBoard->thisIsLastMove = thisIsLastMove;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             newBoard->baseWeight[i][j] = baseWeight[i][j];
@@ -202,6 +208,8 @@ void Board::doMove(Move *m, Side side) {
 
     // Ignore if move is invalid.
     if (!checkMove(m, side)) return;
+    // Perform dynamic heuristic updating.
+
     if (m == allMoves[0][0])
     {
 		baseWeight[0][1] = edg;
