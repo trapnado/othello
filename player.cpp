@@ -84,7 +84,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     moveNumber++;
 
     
-    int stones = board.countBlack() + board.countWhite();
+    
     for (int i = 0; i < TIMING_SIZE; i++)
     {
         if (stones>timing[i] && stones < timing[i+1])
