@@ -50,7 +50,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
 	board.bestScore = -10000;
 	board.bestMove = NULL;
-    depthLimit = 4;
+    depthLimit = 6;
     int alpha = -10000, beta = 10000;
     // CHoose the best move; store it to my board.
     ab(&board, me, opponent, alpha, beta);
