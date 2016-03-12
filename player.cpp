@@ -1,6 +1,6 @@
 #include "player.h"
 #define TIMING_SIZE 10
-#define EXPECTED_NUM_MOVES 36
+//#define EXPECTED_NUM_MOVES 36
 
 /*
  * Constructor for the player; initialize everything here. The side your AI is
@@ -67,15 +67,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     prevMoveStartTime = msLeft;
 
 	int stones = board.countBlack() + board.countWhite();
-    if (moveNumber > 0)
+    if (stones > 15)
     {
-        if ((EXPECTED_NUM_MOVES - moveNumber) * myMoveTimes[moveNumber] 
+        if ( ((64 - stones)/2+2) * myMoveTimes[moveNumber] 
              > msLeft && depthLimit > 0)
         {
             depthLimit--;
         }
-        else if ((EXPECTED_NUM_MOVES - moveNumber) * myMoveTimes[moveNumber] 
-            - stones
+        else if (((64 - stones)/2+2) * myMoveTimes[moveNumber]*10 
             < msLeft)
         {
             depthLimit++;
@@ -105,7 +104,8 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         toReturn = new Move(board.bestMove->x, board.bestMove->y);
     }
-
+    std::cerr << "Depth Searched at: " << depthLimit
+     << std::endl;
     std::cerr << "Approximate minutes left: " << (double)msLeft/60.0/1000.0
      << std::endl;
     return toReturn;
