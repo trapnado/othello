@@ -11,7 +11,12 @@ class Player {
 public:
 	Side me, opponent;
 	Board board; //More pointers more problems. 
-	int depthLimit; // How far deep the player is currently willing to search.
+	int maxDepthLimit; //Maximum Depth player will consider.
+	int depthLimit; // How far deep the player is currently going to search.
+	int moveNumber;
+	// HOw much time we had at start of last move.
+	int prevMoveStartTime;
+	int myMoveTimes[64];
 
     Player(Side side);
     ~Player();

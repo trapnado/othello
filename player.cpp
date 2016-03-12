@@ -1,5 +1,6 @@
 #include "player.h"
 #define TIMING_SIZE 10
+#define EXPECTED_NUM_MOVES 36
 
 /*
  * Constructor for the player; initialize everything here. The side your AI is
@@ -20,13 +21,20 @@ Player::Player(Side side) {
     }
     board = Board(); 
     board.side = side;
-    //board.playerSide = side;
-    //Depth is automatically set to 0.
-    /* 
-     * TODO: Do any initialization you need to do here (setting up the board,
-     * precalculating things, etc.) However, remember that you will only have
-     * 30 seconds.
-     */
+    moveNumber = 0;
+    // HOw much time we had at start of last move.
+    prevMoveStartTime = -1; //We haven't had a move yet.
+    //the myMoveTimes also doesn't need anything ihnteresting.
+    depthLimit = 7;
+    maxDepthLimit = 7;
+    //Just an initialization
+    for (int i = 0; i < 64; i++)
+    {
+        myMoveTimes[i] = 0;
+    }
+    
+    
+
 }
 
 /*
@@ -35,7 +43,8 @@ Player::Player(Side side) {
 Player::~Player() {
 }
 
-
+// THis currently sets maxDepthLimit, the maximum that it is willing to 
+// search in this stage of the game; it will choose 
 // if stoneCount > timing[i], stoneCount < timing[i+1], depth = i
 // depth to go to:           0, 1, 2, 3, 4, 5, 6, 7, 8,  9,  10
 int timing[TIMING_SIZE+1] = {0, 0, 0, 0, 0, 0, 0, 0, 24, 45, 100};
@@ -53,17 +62,39 @@ int timing[TIMING_SIZE+1] = {0, 0, 0, 0, 0, 0, 0, 0, 24, 45, 100};
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
     board.doMove(opponentsMove, opponent);
+    myMoveTimes[moveNumber] = prevMoveStartTime - msLeft;
+    
+    prevMoveStartTime = msLeft;
 
-	board.bestScore = -10000;
-	board.bestMove = NULL;
+	int stones = board.countBlack() + board.countWhite();
+    if (moveNumber > 0)
+    {
+        if ((EXPECTED_NUM_MOVES - moveNumber) * myMoveTimes[moveNumber] 
+             > msLeft && depthLimit > 0)
+        {
+            depthLimit--;
+        }
+        else if ((EXPECTED_NUM_MOVES - moveNumber) * myMoveTimes[moveNumber] 
+            - stones
+            < msLeft)
+        {
+            depthLimit++;
+        }
+    }
+    moveNumber++;
+
+    
     int stones = board.countBlack() + board.countWhite();
     for (int i = 0; i < TIMING_SIZE; i++)
     {
         if (stones>timing[i] && stones < timing[i+1])
         {
-            depthLimit = i;
+            maxDepthLimit = i;
         }
     }
+    
+    board.bestScore = -10000;
+    board.bestMove = NULL;
     int alpha = -10000, beta = 10000;
     // CHoose the best move; store it to my board.
     ab(&board, me, opponent, alpha, beta);
@@ -74,22 +105,9 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         toReturn = new Move(board.bestMove->x, board.bestMove->y);
     }
-/*
-    if (board.thisIsLastMove)
-    {
-        std::cerr << "End in sight. My (with heuristic) score: "
-         << board.scoreBoard(me, opponent, false) << std::endl;
-        std::cerr << "I had "<< msLeft << " ms left before this last move." 
-         << std::endl;
-    }
-    else if (board.bestScore > 1000)
-    {
-        std::cerr << "Game end in sight."
-         << board.scoreBoard(me, opponent, false) << std::endl;
-        std::cerr << "I had "<< msLeft << " ms left before this move." 
-         << std::endl;
-    }*/
-    std::cerr << "Approximate minutes left: " << msLeft/60/1000 << std::endl;
+
+    std::cerr << "Approximate minutes left: " << (double)msLeft/60.0/1000.0
+     << std::endl;
     return toReturn;
 
 }
