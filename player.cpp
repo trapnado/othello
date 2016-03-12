@@ -20,7 +20,7 @@ Player::Player(Side side) {
     }
     board = Board(); 
     board.side = side;
-    board.playerSide = side;
+    //board.playerSide = side;
     //Depth is automatically set to 0.
     /* 
      * TODO: Do any initialization you need to do here (setting up the board,
